@@ -1,0 +1,29 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(here)
+library(skimr)
+library(janitor)
+```
+
+```{r}
+pokemon_orig <- read.csv("pokemon.csv")
+
+#make copy
+poke_df <- pokemon_orig
+```
+
+```{r}
+glimpse(poke_df)
+```
+
+```{r}
+poke_df %>% hist( x = is_legendary)
+```
+
+
+
