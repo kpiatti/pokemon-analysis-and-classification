@@ -2,12 +2,16 @@
 title: "R Notebook"
 output: html_notebook
 ---
+# LOAD PKGS AND DATA #####################
 
 ```{r}
 library(tidyverse)
 library(here)
 library(skimr)
 library(janitor)
+library(corrplot)
+library(corrr)
+library(kableExtra)
 ```
 
 ```{r}
@@ -18,12 +22,244 @@ poke_df <- pokemon_orig
 ```
 
 ```{r}
-glimpse(poke_df)
+poke_df %>% clean_names() %>% 
+  glimpse()
+```
+
+# TARGET VAR DISTRIBUTIONS ###############
+```{r}
+#plot legendary target
+poke_df %>% 
+  ggplot(aes(is_legendary)) +
+  geom_bar() +
+  ggtitle("Non-Legendary vs. Legendary Pokemon") +
+  xlab("") +
+  scale_x_discrete(breaks=c(0, 1)) +
+  theme_light()
 ```
 
 ```{r}
-poke_df %>% hist( x = is_legendary)
+#plot type1 target
+poke_df %>% 
+  ggplot(aes(type1)) +
+  geom_histogram(stat = "count") +
+  ggtitle("Pokemon Primary Type Distribution") +
+  xlab("") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.75))
 ```
+
+```{r}
+#plot type2 target
+poke_df %>% 
+  ggplot(aes(type2)) +
+  geom_histogram(stat = "count") +
+  ggtitle("Pokemon Secondary Type Distribution") +
+  xlab("") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.75))
+```
+looks like almost half the pokemon don't have a secondary type.
+
+# FEATURE VAR DISTRIBUTIONS
+
+```{r}
+#plot pokemon per generation
+poke_df %>% 
+  ggplot(aes(generation)) +
+  geom_bar() +
+  scale_x_discrete(breaks = c(1,2,3,4,5,6,7),
+                   labels = c("1","2",'3','4','5','6','7')) +
+  ggtitle("Number of Pokemon per Genration") +
+  theme_light()
+```
+
+```{r}
+#plot distribution of pokemon speed
+hist(poke_df$speed)
+```
+
+```{r}
+#plot distribution of pokemon weight
+hist(poke_df$weight_kg)
+```
+
+```{r}
+#plot distribution of pokemon health points
+hist(poke_df$hp)
+```
+
+
+```{r}
+#plot distribution of pokemon defense points
+hist(poke_df$defense)
+```
+
+```{r}
+#plot distribution of pokemon attack points
+hist(poke_df$attack)
+```
+
+```{r}
+#plot distribution of pokemon capture rate
+poke_df %>% 
+  distinct(capture_rate)
+```
+i have no idea what these values mean.
+
+```{r}
+#plot distribution of pokemon height
+hist(poke_df$height_m)
+```
+
+```{r}
+#plot distribution of pokemon attack speed
+hist(poke_df$sp_attack)
+```
+
+```{r}
+#plot distribution of pokemon defense speed
+hist(poke_df$sp_defense)
+```
+
+
+```{r}
+#plot distribution of pokemon base total
+hist(poke_df$base_total)
+```
+
+i don't know what base total means
+
+# CORRELATION ANALYSIS
+
+```{r}
+# drop vars
+poke_ldf <- poke_df %>% 
+  select(-starts_with("against"), -japanese_name, -abilities, -starts_with("base"), -capture_rate, -experience_growth, -name, -classfication, -percentage_male, -pokedex_number) %>% 
+  glimpse()
+```
+
+```{r}
+#get correlations 
+poke_ldf %>% 
+  select(-type1, -type2) %>% 
+  correlate() %>% 
+  shave() %>% 
+  stretch() %>% 
+  filter(r > abs(0.43)) %>% 
+  kbl() %>% 
+  kable_paper("striped")
+```
+
+```{r}
+
+#get correlations 
+poke_ldf %>% 
+  select(-type1, -type2) %>% 
+  correlate() %>% 
+  shave() %>% 
+  stretch() %>% 
+  filter(x == "is_legendary") %>% 
+  kbl() %>% 
+  kable_paper("striped")
+```
+
+
+```{r}
+poke_ldf %>% 
+  summarise(missing_height = sum(is.na(height_m)),
+            missing_weight = sum(is.na(weight_kg)))
+```
+
+```{r}
+poke_mldf <- poke_ldf %>% 
+  drop_na()
+```
+
+```{r}
+#get correlations 
+poke_mldf %>% 
+  select(-type1, -type2) %>% 
+  corre() %>% 
+  kbl() %>% 
+  kable_paper("striped")
+```
+
+```{r}
+#correlation heatmap
+poke_mldf %>% 
+  select(-type1, -type2) %>% 
+  cor() %>% 
+  corrplot()
+```
+
+# LEGENDARY ANALYSIS ##################
+
+```{r}
+poke_ldf %>% 
+  ggplot(aes(group = is_legendary, y = attack)) +
+  geom_boxplot() +
+  ggtitle("Attack in Non-Legendary vs. Legendary Pokemon") +
+  theme(axis.text.x = element_blank())
+```
+
+```{r}
+poke_ldf %>% 
+  ggplot(aes(group = is_legendary, y = speed)) +
+  geom_boxplot() +
+  ggtitle("Speed in Non-Legendary vs. Legendary Pokemon") +
+  theme(axis.text.x = element_blank())
+```
+
+```{r}
+poke_ldf %>% 
+  ggplot(aes(group = is_legendary, y = defense)) +
+  geom_boxplot() +
+  ggtitle("Defense in Non-Legendary vs. Legendary Pokemon") +
+  theme(axis.text.x = element_blank())
+```
+
+```{r}
+poke_ldf %>% 
+  ggplot(aes(group = is_legendary, y = hp)) +
+  geom_boxplot() +
+  ggtitle("Health in Non-Legendary vs. Legendary Pokemon") +
+  theme(axis.text.x = element_blank())
+```
+
+```{r}
+poke_ldf %>% 
+  ggplot(aes(group = is_legendary, y = sp_attack)) +
+  geom_boxplot() +
+  ggtitle("Attack Speed in Non-Legendary vs. Legendary Pokemon") +
+  theme(axis.text.x = element_blank())
+```
+
+```{r}
+poke_ldf %>% 
+  ggplot(aes(group = is_legendary, y = sp_defense)) +
+  geom_boxplot() +
+  ggtitle("Defense Speed in Non-Legendary vs. Legendary Pokemon") +
+  theme(axis.text.x = element_blank())
+```
+
+```{r}
+poke_mldf %>% 
+  ggplot(aes(group = is_legendary, y = height_m)) +
+  geom_boxplot() +
+  ggtitle("Height in Non-Legendary vs. Legendary Pokemon") +
+  theme(axis.text.x = element_blank())
+```
+
+```{r}
+poke_mldf %>% 
+  ggplot(aes(group = is_legendary, y = weight_kg)) +
+  geom_boxplot() +
+  ggtitle("Weight in Non-Legendary vs. Legendary Pokemon") +
+  theme(axis.text.x = element_blank())
+```
+
+
+
+
 
 
 
