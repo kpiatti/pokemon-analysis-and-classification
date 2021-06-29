@@ -43,17 +43,20 @@ for item in pokemon_list:
     # Now, split the remaining stats on comma,
     # then delete element 29 (the Japanese name)
     # which is the unreadable part
+
     #pokemon_stats_raw = pokemon_row[1].split(b',')
     #del pokemon_stats_raw[29]
     #pokemon_stats.append(pokemon_stats_raw)
 
-    pokemon_stats = pokemon_row[1].split(b',')
+    #pokemon_stats = pokemon_row[1].split(b',')
+
+    pokemon_stats = pokemon_row[1].decode().split(',')
     del pokemon_stats[29]
 
-    # Finally, append both lists to the filtered list
+    # Join the abilities and stats into a single list
 
-    pokemon_filtered.append(pokemon_abilities)
-    pokemon_filtered.append(pokemon_stats)
+    pokemon_filtered.append(pokemon_abilities + ', '.join(pokemon_stats))
 
 # Dummy statement so debugger stays active
+
 dummy = []
