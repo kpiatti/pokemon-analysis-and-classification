@@ -25,6 +25,7 @@ del pokemon_list[0]
 
 pokemon_abilities = []
 pokemon_stats = []
+pokemon_filtered = []
 
 # Process each row of pokemon data, ending with one list
 # of abilities coded as an array
@@ -36,14 +37,23 @@ for item in pokemon_list:
     pokemon_row = item.split(b']"')
 
     # Append abilities to list and add ] back in
-    pokemon_abilities.append(pokemon_row[0] + b']"')
+    # pokemon_abilities.append(pokemon_row[0] + b']"')
+    pokemon_abilities = pokemon_row[0].decode() + ']"'
 
     # Now, split the remaining stats on comma,
     # then delete element 29 (the Japanese name)
     # which is the unreadable part
-    pokemon_stats_raw = pokemon_row[1].split(b',')
-    del pokemon_stats_raw[29]
-    pokemon_stats.append(pokemon_stats_raw)
+    #pokemon_stats_raw = pokemon_row[1].split(b',')
+    #del pokemon_stats_raw[29]
+    #pokemon_stats.append(pokemon_stats_raw)
+
+    pokemon_stats = pokemon_row[1].split(b',')
+    del pokemon_stats[29]
+
+    # Finally, append both lists to the filtered list
+
+    pokemon_filtered.append(pokemon_abilities)
+    pokemon_filtered.append(pokemon_stats)
 
 # Dummy statement so debugger stays active
 dummy = []
