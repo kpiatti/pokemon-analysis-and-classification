@@ -679,7 +679,7 @@ abilities,against_bug,against_dark,against_dragon,against_electric,against_fairy
 "['Keen Eye', 'Infiltrator', 'Prankster', 'Competitive']",2,2,1,1,1,0.5,1,1,2,1,1,1,1,1,0.5,1,1,1,48,5120,70,466,75,Constraint Pokémon,76,1000000,0.6,74,Nyaonixニャオニクス,Meowstic,50,678,83,81,104,psychic,,8.5,6,0
 "['No Guard']",0.25,2,0.5,1,0.5,0,2,0.5,2,0.5,2,0.5,0,0,0.5,0.5,0.5,1,80,5120,70,325,180,Sword Pokémon,100,1000000,0.8,45,Hitotsukiヒトツキ,Honedge,50,679,35,37,28,steel,ghost,2.0,6,0
 "['No Guard']",0.25,2,0.5,1,0.5,0,2,0.5,2,0.5,2,0.5,0,0,0.5,0.5,0.5,1,110,5120,70,448,90,Sword Pokémon,150,1000000,0.8,59,Nidangillニダンギル,Doublade,50,680,45,49,35,steel,ghost,4.5,6,0
-"['Stance Change'],0.25,2,0.5,1,0.5,0,2,0.5,2,0.5,2,0.5,0,0,0.5,0.5,0.5,1,150,5120,70,520,45,Royal Sword Pokémon,50,1000000,1.7,60,Gillgardギルガルド,Aegislash,50,681,150,50,60,steel,ghost,53.0,6,0
+"['Stance Change']",0.25,2,0.5,1,0.5,0,2,0.5,2,0.5,2,0.5,0,0,0.5,0.5,0.5,1,150,5120,70,520,45,Royal Sword Pokémon,50,1000000,1.7,60,Gillgardギルガルド,Aegislash,50,681,150,50,60,steel,ghost,53.0,6,0
 "['Healer', 'Aroma Veil']",0.5,0.5,0,1,1,0.5,1,1,1,1,1,1,1,2,1,1,2,1,52,5120,70,341,200,Perfume Pokémon,60,1000000,0.2,78,Shushupuシュシュプ,Spritzee,50,682,63,65,23,fairy,,0.5,6,0
 "['Healer', 'Aroma Veil']",0.5,0.5,0,1,1,0.5,1,1,1,1,1,1,1,2,1,1,2,1,72,5120,70,462,140,Fragrance Pokémon,72,1000000,0.8,101,Frefuwanフレフワン,Aromatisse,50,683,99,89,29,fairy,,15.5,6,0
 "['Sweet Veil', 'Unburden']",0.5,0.5,0,1,1,0.5,1,1,1,1,1,1,1,2,1,1,2,1,48,5120,70,341,200,Cotton Candy Pokémon,66,1000000,0.4,62,Peroppafuペロッパフ,Swirlix,50,684,59,57,49,fairy,,3.5,6,0

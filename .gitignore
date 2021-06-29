@@ -1,3 +1,8 @@
+# Added by DVS 6/28/2021
+.vscode
+Scripts
+
+# Original config.
 .Rproj.user
 .Rhistory
 .RData
