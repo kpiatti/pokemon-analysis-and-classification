@@ -3,7 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS pokemon_raw_stage (
 	pokemon_id bigint not null auto_increment unique primary key,
-	abilities json,
+	abilities varchar(200),
 	against_bug float,
 	against_dark float,
 	against_dragon float,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS pokemon_raw_stage (
 	base_happiness integer,
 	base_total integer,
 	capture_rate integer,
-	classfication varchar(50),
+	classification varchar(50),
 	defense integer,
 	experience_growth integer,
 	height_m float,
