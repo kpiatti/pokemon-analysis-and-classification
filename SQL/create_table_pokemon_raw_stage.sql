@@ -1,6 +1,5 @@
 -- Initial staging table for pokemon data received in CSV format
 -- Loads data as is and acts as source table for normalized staging tables
--- Bad records are quarantined (manually)
 
 CREATE TABLE IF NOT EXISTS pokemon_raw_stage (
 	pokemon_id bigint not null auto_increment unique primary key,
@@ -33,7 +32,6 @@ CREATE TABLE IF NOT EXISTS pokemon_raw_stage (
 	experience_growth integer,
 	height_m float,
 	hp integer,
-	-- japanese_name blob,
 	english_name varchar(50),
 	percentage_male float,
 	pokedex_number integer,
