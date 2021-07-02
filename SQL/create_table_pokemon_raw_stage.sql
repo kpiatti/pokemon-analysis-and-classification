@@ -1,9 +1,9 @@
 -- Initial staging table for pokemon data received in CSV format
 -- Loads data as is and acts as source table for normalized staging tables
-
+drop table pokemon_raw_stage;
 CREATE TABLE IF NOT EXISTS pokemon_raw_stage (
 	pokemon_id bigint not null auto_increment unique primary key,
-	abilities varchar(200),
+    abilities varchar(500),
 	against_bug float,
 	against_dark float,
 	against_dragon float,
