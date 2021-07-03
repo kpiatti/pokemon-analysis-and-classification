@@ -1,4 +1,4 @@
---Create table for storing pokemon stats
+-- Create table for storing pokemon stats
 
 CREATE TABLE IF NOT EXISTS statistics (
 	pokemon_id bigint not null auto_increment unique primary key,

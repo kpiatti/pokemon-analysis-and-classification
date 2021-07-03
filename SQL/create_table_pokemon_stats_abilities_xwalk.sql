@@ -1,6 +1,6 @@
---Create crosswalk table to relate each pokemon to their abilities
---This is many-to-many, as each pokemon can have multiple abilities
---and each ability may belong to several different pokemon
+-- Create crosswalk table to relate each pokemon to their abilities
+-- This is many-to-many, as each pokemon can have multiple abilities
+-- and each ability may belong to several different pokemon
 
 CREATE TABLE IF NOT EXISTS statistics_to_abilities_xwalk (
 	pokemon_id_FK bigint not null,
