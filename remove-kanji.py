@@ -1,17 +1,30 @@
 # remove-kanji
 # removes kanji characters from the pokemon data file
 # so it will load into MySQL
+# DVS 7/2/2021
+
+KANJI_FIELD = 29
 
 input_file = "Data\\pokemon.csv"
 output_file = "Data\\pokemon-filtered.dat"
 
 def retrieve_rows(input, skip_header = True):
+    """
+        Returns a list of rows from the input file, ommiting
+        the first row if desired
+    """
+
     row_list = input.splitlines()
     if skip_header:
         del row_list[0]
     return row_list
 
 def remove_kanji(input):
+    """
+        Removes the field at position 29, which contains kanji.
+        Returns a filtered list of input rows without this field,
+        delimited with pipe (so commas in first field won't collide)
+    """
 
     input_filtered = []
     for item in input:
@@ -25,7 +38,7 @@ def remove_kanji(input):
 
         abilities = item_row[0].decode() + ']"'
         stats = item_row[1].decode().split(',')
-        del stats[29]
+        del stats[KANJI_FIELD]
 
         # Join the abilities and stats into a single list
         # Use pipe delim so stray commas don't lead to issues

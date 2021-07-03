@@ -47,6 +47,6 @@ if __name__ == '__main__':
     f.close()
 
     with open(output_file, 'wt') as f:
-        csv_writer = csv.writer(f, delimiter = '')
-        for ability in abilities:
-            csv_writer.writerow(ability)
+        for ability in abilities[0:-1]:
+            f.write(ability + '\n')
+        f.write(abilities[-1])
