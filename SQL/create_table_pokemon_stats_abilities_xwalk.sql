@@ -9,10 +9,12 @@ CREATE TABLE IF NOT EXISTS statistics_to_abilities_xwalk (
 	index (pokemon_id_FK),
 	index (ability_id_FK),
 
-	foreign key (pokemon_id_FK)
+	constraint statistics_to_abilities_xwalk_pokemon_id_FK
+    foreign key (pokemon_id_FK)
 	references statistics (pokemon_id)
 	on update cascade on delete cascade,
 
+	constraint statistics_to_abilities_xwalk_ability_id_FK
 	foreign key (ability_id_FK)
 	references abilities (ability_id)
 	on update cascade on delete restrict
