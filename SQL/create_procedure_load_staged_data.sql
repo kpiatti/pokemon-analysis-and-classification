@@ -1,15 +1,5 @@
--- Procedure to load pokemon data from the pokemon staging table to the statistics table.
--- Also creates the xwalk entries to map each pokemon to its abilities in the abilities table
--- Relies on pokemon name being unique to insert the correct row from staging
--- DVS 07/6/2021
-
-start transaction;
-
-	use pokemon;
-	delimiter //
-
-	create procedure load_staged_data()
-	begin
+CREATE DEFINER=`admin`@`%` PROCEDURE `load_staged_data`()
+begin
 
 		declare new_pokemon_id bigint;
 		declare pokemon_name varchar(50);
@@ -21,7 +11,7 @@ start transaction;
 		-- Pokemon name is used to restrict insert to that pokemon,
 		-- and auto_increment ID is mapped to xwalk with ability ids
 
-		declare stage_cursor cursor for select english_name, abilities from pokemon_raw_stage;
+		declare stage_cursor cursor for select english_name, abilities from stage;
 		declare continue handler for not found set done = true;
 		
 		open stage_cursor;
@@ -45,7 +35,7 @@ start transaction;
 			against_electric, against_fairy, against_fight, against_fire, against_flying, against_ghost, against_grass, against_ground, against_ice,
 			against_normal, against_poison, against_psychic, against_rock, against_steel, against_water, base_egg_steps, base_happiness, base_total,
 			capture_rate, experience_growth, height_m, weight_kg, percentage_male, pokedex_number, generation, is_legendary
-			from pokemon_raw_stage
+			from stage
 			where english_name = pokemon_name;
 		
 			-- Get ID of inserted record
@@ -63,4 +53,4 @@ start transaction;
         
         commit;
 		
-	end;
+	end

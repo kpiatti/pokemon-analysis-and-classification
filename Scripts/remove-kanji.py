@@ -5,8 +5,8 @@
 
 KANJI_FIELD = 29
 
-input_file = "Data\\pokemon.csv"
-output_file = "Data\\pokemon-filtered.dat"
+input_file = "Data\\pokemon_modified_data.csv"
+output_file = "Data\\pokemon_filtered.dat"
 
 def retrieve_rows(input, skip_header = True):
     """
@@ -43,7 +43,7 @@ def remove_kanji(input):
         # Join the abilities and stats into a single list
         # Use pipe delim so stray commas don't lead to issues
 
-        input_filtered.append(abilities + '| '.join(stats))
+        input_filtered.append(abilities + '|'.join(stats))
 
     return input_filtered
 

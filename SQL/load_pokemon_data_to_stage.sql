@@ -3,9 +3,9 @@
 start transaction;
 
 	use pokemon;
-	truncate pokemon_raw_stage;
-	load data local infile 'C:\\Users\\dvschwab\\Documents\\Programming\\Python3\\pokemon-analysis-and-classification\\Data\\pokemon-filtered.dat'
-	into table pokemon_raw_stage
+	truncate stage;
+	load data local infile 'C:\\Users\\dvschwab\\Documents\\Programming\\Python3\\pokemon-analysis-and-classification\\Data\\pokemon_filtered.dat'
+	into table stage
 		fields terminated by '|'
 		optionally enclosed by '"'
 	(abilities, against_bug, against_dark, against_dragon, against_electric, against_fairy, against_fight, against_fire, against_flying, against_ghost,
