@@ -1,4 +1,4 @@
-CREATE DEFINER=`admin`@`%` PROCEDURE `load_staged_data`()
+delimiter //
 begin
 
 		declare new_pokemon_id bigint;
@@ -54,3 +54,4 @@ begin
         commit;
 		
 	end
+delimiter ;
