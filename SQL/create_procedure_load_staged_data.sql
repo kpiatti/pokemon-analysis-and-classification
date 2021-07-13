@@ -1,9 +1,13 @@
 delimiter //
-begin
 
+create procedure load_staged_data()
+
+begin
 		declare new_pokemon_id bigint;
 		declare pokemon_name varchar(50);
 		declare pokemon_abilities varchar(500);
+        declare pokemon_type varchar(50);
+        declare new_species_id bigint;
 		declare done int default false;
 
 		-- Cursor selects pokemon by name and retrieves its abilities from stage
@@ -11,27 +15,32 @@ begin
 		-- Pokemon name is used to restrict insert to that pokemon,
 		-- and auto_increment ID is mapped to xwalk with ability ids
 
-		declare stage_cursor cursor for select english_name, abilities from stage;
+		declare stage_cursor cursor for select english_name, abilities, type1 from stage;
 		declare continue handler for not found set done = true;
 		
 		open stage_cursor;
-		
-		read_loop: loop
-			fetch stage_cursor into pokemon_name, pokemon_abilities;
+        
+        read_loop: loop
+			fetch stage_cursor into pokemon_name, pokemon_abilities, pokemon_type;
 			if done then 
 				leave read_loop;
 			end if;
-			
+            
+            -- Get the species_id from the species table corresponding to the Pokemon's type
+            -- so we can load that instead of the type
+            
+            select species_id from species where species_type = pokemon_type into new_species_id;
+            
 			-- Insert next pokemon into statistics table
 			-- WHERE clause of SELECT limits insert to just that one pokemon
 			-- (which is why english_name MUST be unique)
 			
-			insert into statistics (english_name, classification, primary_type, hit_points, attack, defense, speed, sp_attack, sp_defense,
+			insert into statistics (english_name, classification, species, hit_points, attack, defense, speed, sp_attack, sp_defense,
 			against_bug, against_dark, against_dragon, against_electric, against_fairy, against_fight, against_fire, against_flying, against_ghost,
 			against_grass, against_ground, against_ice, against_normal, against_poison, against_psychic, against_rock, against_steel, against_water,
 			base_egg_steps, base_happiness, base_total, capture_rate, experience_growth, height_m, weight_kg, percentage_male,
 			pokedex_number, generation, is_legendary)
-			select english_name, classification, type1, hp, attack, defense, speed, sp_attack, sp_defense, against_bug, against_dark, against_dragon,
+			select english_name, classification, new_species_id, hp, attack, defense, speed, sp_attack, sp_defense, against_bug, against_dark, against_dragon,
 			against_electric, against_fairy, against_fight, against_fire, against_flying, against_ghost, against_grass, against_ground, against_ice,
 			against_normal, against_poison, against_psychic, against_rock, against_steel, against_water, base_egg_steps, base_happiness, base_total,
 			capture_rate, experience_growth, height_m, weight_kg, percentage_male, pokedex_number, generation, is_legendary
@@ -48,10 +57,6 @@ begin
 			select new_pokemon_id, ability_id from abilities where instr(pokemon_abilities, ability);
 
 		end loop;
-		
-		close stage_cursor;
         
-        commit;
-		
-	end
-delimiter ;
+        close stage_cursor;
+end
